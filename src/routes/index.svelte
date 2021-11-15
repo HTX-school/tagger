@@ -6,6 +6,8 @@
     
     let settings = {}
 
+    let player_count = 0
+
     let near_players_list = []
     let close_players_list = []
 
@@ -36,6 +38,10 @@
             close_players_list = close_players
         })
 
+        socket.on('player-count', count => {
+            player_count = count
+        })
+
         function SendPosition(data) {
             let { coords } = data
             let json = {
@@ -64,6 +70,7 @@
         <input type="text" bind:value={player_name} on:change={(change) => socket.emit('name_change', player_name)}>
     </div>
     <p>Identity: {id ?? ''}</p>
+    <p>{player_count}</p>
         
     {#if near_players_list.length > 0}
         <div class="near">
