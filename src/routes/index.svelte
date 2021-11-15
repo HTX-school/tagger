@@ -2,6 +2,8 @@
     import { onMount } from 'svelte'
     import * as io from "socket.io-client"
     
+    const address = 'https://catcher-nodejs.herokuapp.com'
+    
     let settings = {}
 
     let near_players_list = []
@@ -12,15 +14,13 @@
     let id = undefined
 
     let socket = undefined
-    onMount(() => {
-        let conStr = location.hostname === "localhost" || location.hostname === "127.0.0.1" ? 'localhost' : '192.168.103.24'
-        
+    onMount(() => {        
         let posErr = false
         navigator.geolocation.watchPosition(SendPosition, (err) => posErr = true, { enableHighAccuracy: false })
 
         if (posErr) return
 
-        socket = io.connect(`ws://${conStr}:${5000}`, { secure: true })
+        socket = io.connect(address)
 
         socket.on('join', identity => {
             console.log('Your identity is', identity)
@@ -29,12 +29,10 @@
         })
 
         socket.on('near_player', near_players => {
-            console.log(near_players)
             near_players_list = near_players
         })
         
         socket.on('close_player', close_players => {
-            console.log(close_players)
             close_players_list = close_players
         })
 
@@ -60,6 +58,7 @@
 
 <div class="main">
     <h1>Welcome to Tagger</h1>
+    <p>Connecting to {address}</p>
     <div class="name-sel">
         <p>Name: </p>
         <input type="text" bind:value={player_name} on:change={(change) => socket.emit('name_change', player_name)}>
