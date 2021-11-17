@@ -70,7 +70,7 @@
         <input type="text" bind:value={player_name} on:change={(change) => socket.emit('name_change', player_name)}>
     </div>
     <p>Identity: {id ?? ''}</p>
-    <p>{player_count}</p>
+    <p>Players: {player_count}</p>
         
     {#if near_players_list.length > 0}
         <div class="near">
