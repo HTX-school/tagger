@@ -1,6 +1,8 @@
 <script>
     import { onMount } from 'svelte'
     import * as io from "socket.io-client"
+
+    import ListObjects from '../lib/ListObjects.svelte'
     
     const address = 'https://catcher-nodejs.herokuapp.com'
     
@@ -75,22 +77,14 @@
     {#if near_players_list.length > 0}
         <div class="near">
             <p>There's players within {settings.long_distance} meters to you:</p>
-            <ul>
-                {#each near_players_list as player}
-                    <li>{player}</li>
-                {/each}
-            </ul>
+            <ListObjects list={near_players_list}/>
         </div>
     {/if}
 
     {#if close_players_list.length > 0}
         <div class="close">
             <p>These's players within {settings.short_distance} meters to you:</p>
-            <ul>
-                {#each close_players_list as player}
-                    <li>{player}</li>
-                {/each}
-            </ul>
+            <ListObjects list={close_players_list}/>
         </div>
     {/if}
 </div>
@@ -103,10 +97,5 @@
 
     .name-sel {
         display: flex;
-    }
-
-    ul {
-        background-color: #fff9e8;
-        border-radius: 10px;
     }
 </style>
