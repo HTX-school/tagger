@@ -13,7 +13,80 @@
 
     let near_players_list = []
     let close_players_list = []
-    let received_messages = []
+    let received_messages = [
+        {
+            sender: 'Hello',
+            message: 'there!'
+        },
+        {
+            sender: 'Hello',
+            message: 'there!'
+        },
+        {
+            sender: 'Hello',
+            message: 'there!'
+        },
+        {
+            sender: 'Hello',
+            message: 'there!'
+        },
+        {
+            sender: 'Hello',
+            message: 'there!'
+        },
+        {
+            sender: 'Hello',
+            message: 'there!'
+        },
+        {
+            sender: 'Hello',
+            message: 'there!'
+        },
+        {
+            sender: 'Hello',
+            message: 'there!'
+        },
+        {
+            sender: 'Hello',
+            message: 'there!'
+        },
+        {
+            sender: 'Hello',
+            message: 'there!'
+        },
+        {
+            sender: 'Hello',
+            message: 'there!'
+        },
+        {
+            sender: 'Hello',
+            message: 'there!'
+        },
+        {
+            sender: 'Hello',
+            message: 'there!'
+        },
+        {
+            sender: 'Hello',
+            message: 'there!'
+        },
+        {
+            sender: 'Hello',
+            message: 'there!'
+        },
+        {
+            sender: 'Hello',
+            message: 'there!'
+        },
+        {
+            sender: 'Hello',
+            message: 'there!'
+        },
+        {
+            sender: 'Hello',
+            message: 'there!'
+        },
+    ]
 
     let player_name = ''
 
