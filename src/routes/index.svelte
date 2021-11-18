@@ -2,7 +2,6 @@
     import { onMount } from 'svelte'
     import * as io from "socket.io-client"
 
-    import ListObjects from '../lib/ListObjects.svelte'
     import ChatField from '../lib/ChatField.svelte'
     
     const address = import.meta.env.VITE_HOST || 'https://catcher-nodejs.herokuapp.com'
@@ -11,8 +10,8 @@
 
     let player_count = 0
 
-    let near_players_list = []
-    let close_players_list = []
+    let player_distances = {}
+
     let received_messages = []
 
     let player_name = ''
@@ -34,12 +33,8 @@
             settings = identity.server_settings
         })
 
-        socket.on('near_player', near_players => {
-            near_players_list = near_players
-        })
-        
-        socket.on('close_player', close_players => {
-            close_players_list = close_players
+        socket.on('player_distances', players_dists => {
+            player_distances = players_dists
         })
 
         socket.on('player-count', count => {
@@ -83,20 +78,12 @@
     <div class="chat">
         <ChatField socket={socket} bind:messages={received_messages}/>
     </div>
-        
-    {#if near_players_list.length > 0}
-        <div class="near">
-            <p>There's players within {settings.long_distance} meters to you:</p>
-            <ListObjects list={near_players_list}/>
-        </div>
-    {/if}
 
-    {#if close_players_list.length > 0}
-        <div class="close">
-            <p>These's players within {settings.short_distance} meters to you:</p>
-            <ListObjects list={close_players_list}/>
-        </div>
-    {/if}
+    <div class="player-dists">
+        {#each Object.entries(player_distances) as [key, value]}
+            {key}
+        {/each}
+    </div>
 </div>
 
 <style>
