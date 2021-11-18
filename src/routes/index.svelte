@@ -3,8 +3,9 @@
     import * as io from "socket.io-client"
 
     import ListObjects from '../lib/ListObjects.svelte'
+    import ChatField from '../lib/ChatField.svelte'
     
-    const address = 'https://catcher-nodejs.herokuapp.com'
+    const address = import.meta.env.VITE_HOST || 'https://catcher-nodejs.herokuapp.com'
     
     let settings = {}
 
@@ -12,6 +13,7 @@
 
     let near_players_list = []
     let close_players_list = []
+    let received_messages = []
 
     let player_name = ''
 
@@ -44,6 +46,10 @@
             player_count = count
         })
 
+        socket.on('chat.message.received', messageObject => {
+            received_messages = [...received_messages, messageObject]
+        })
+
         function SendPosition(data) {
             let { coords } = data
             let json = {
@@ -69,10 +75,14 @@
     <p>Connecting to {address}</p>
     <div class="name-sel">
         <p>Name: </p>
-        <input type="text" bind:value={player_name} on:change={(change) => socket.emit('name_change', player_name)}>
+        <input type="text" bind:value={player_name} on:change={() => socket.emit('name_change', player_name)}>
     </div>
     <p>Identity: {id ?? ''}</p>
     <p>Players: {player_count}</p>
+
+    <div class="chat">
+        <ChatField socket={socket} bind:messages={received_messages}/>
+    </div>
         
     {#if near_players_list.length > 0}
         <div class="near">
@@ -97,5 +107,9 @@
 
     .name-sel {
         display: flex;
+    }
+
+    .chat {
+        width: 400px;
     }
 </style>
