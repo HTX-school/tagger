@@ -9,6 +9,7 @@
     
     let settings = undefined
     
+    let old_name
     let player_name = ''
     
     let player_count = 0
@@ -17,21 +18,26 @@
 
     let id = undefined
 
-    let socket = undefined
-    onMount(() => {        
+    var socket = undefined
+    
+    onMount(() => {
+        player_name = localStorage.getItem('player.name') || ''
+        old_name = player_name
+
         let posErr = false
         navigator.geolocation.watchPosition(SendPosition, (err) => posErr = true, { enableHighAccuracy: false })
-
+        
         if (posErr) return
-
+        
         socket = io.connect(address)
-
+        
         socket.on('join', identity => {
             console.log('Your identity is', identity)
             id = identity.player_id
             settings = identity.settings
+            if (player_name) socket.emit('player.name.change', player_name)
         })
-
+        
         socket.on('players.distance', players_dists => {
             player_distances = players_dists
         })
@@ -62,22 +68,43 @@
         }
     })
 
+    function changeName() {
+        if (player_name < 1 || player_name > 25) return;
+
+        socket.emit('player.name.change', player_name)
+        localStorage.setItem('player.name', player_name)
+        old_name = player_name
+    }
+
 </script>
 
 <div class="main">
     <h1>Welcome to Tagger</h1>
     <div class="details">
         <div class="name-sel">
-            <p>Name:<input type="text" bind:value={player_name} on:change={() => socket.emit('name_change', player_name)}></p>
+            <p>
+                Name:
+                <input type="text" bind:value={player_name}>
+                <button on:click={changeName} disabled={player_name.length < 1 || player_name.length > 25}>Apply</button>
+            </p>
+            {#if old_name != player_name}
+                <p>Unapplied name. Apply the name to make it visible to others.</p>
+            {:else if player_name.length < 1}
+                <p>Name is too short.</p>
+            {:else if player_name.length > 25}
+                <p>Name is too long.</p>
+            {:else}
+                <br/>
+            {/if}
         </div>
     </div>
     
     {#if socket && socket.connected}
         <div class="server-details">
-            <p>Identity: {id ?? ''}</p>
-            <p>Players: {player_count}</p>
+            <h3>Server details</h3>
+            <p>Your identity: {id ?? ''}</p>
+            <p>Players online: {player_count}</p>
         </div>
-        
 
 
         <h4>Distance to all players within {settings.max_distance} meters of you:</h4>
@@ -99,5 +126,20 @@
 
     .name-sel {
         display: flex;
+        flex-direction: column;
+        padding: 0;
+        margin: 0;
+    }   
+
+    .name-sel p {
+        margin: 0;
+        padding: 0;
+    }
+
+    .server-details {
+        padding: 1px 0 1px 20px;
+        border-radius: 5px;
+        background-color: #cedbdb;
+        width: 30em;
     }
 </style>
