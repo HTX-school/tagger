@@ -3,18 +3,17 @@
     import * as io from "socket.io-client"
 
     import ChatField from '../lib/ChatField.svelte'
+    import LoadingScreen from '$lib/LoadingScreen.svelte'
     
     const address = import.meta.env.VITE_HOST || 'https://catcher-nodejs.herokuapp.com'
     
-    let settings = {}
-
-    let player_count = 0
-
-    let player_distances = {}
-
-    let received_messages = []
-
+    let settings = undefined
+    
     let player_name = ''
+    
+    let player_count = 0
+    let player_distances = {}
+    let received_messages = []
 
     let id = undefined
 
@@ -30,14 +29,14 @@
         socket.on('join', identity => {
             console.log('Your identity is', identity)
             id = identity.player_id
-            settings = identity.server_settings
+            settings = identity.settings
         })
 
-        socket.on('player_distances', players_dists => {
+        socket.on('players.distance', players_dists => {
             player_distances = players_dists
         })
 
-        socket.on('player-count', count => {
+        socket.on('players.count', count => {
             player_count = count
         })
 
@@ -67,23 +66,29 @@
 
 <div class="main">
     <h1>Welcome to Tagger</h1>
-    <p>Connecting to {address}</p>
-    <div class="name-sel">
-        <p>Name: </p>
-        <input type="text" bind:value={player_name} on:change={() => socket.emit('name_change', player_name)}>
+    <div class="details">
+        <div class="name-sel">
+            <p>Name:<input type="text" bind:value={player_name} on:change={() => socket.emit('name_change', player_name)}></p>
+        </div>
     </div>
-    <p>Identity: {id ?? ''}</p>
-    <p>Players: {player_count}</p>
+    
+    {#if socket && socket.connected}
+        <div class="server-details">
+            <p>Identity: {id ?? ''}</p>
+            <p>Players: {player_count}</p>
+        </div>
+        
 
-    <div class="chat">
-        <ChatField socket={socket} bind:messages={received_messages}/>
-    </div>
 
-    <div class="player-dists">
-        {#each Object.entries(player_distances) as [key, value]}
-            {key}
-        {/each}
-    </div>
+        <h4>Distance to all players within {settings.max_distance} meters of you:</h4>
+        <div class="player-dists">
+            {#each Object.entries(player_distances) as [name, value]}
+                <p>{name}: {value}m</p>
+            {/each}
+        </div>
+    {:else}
+        <p>Connecting to {address}</p>
+    {/if}
 </div>
 
 <style>
@@ -94,9 +99,5 @@
 
     .name-sel {
         display: flex;
-    }
-
-    .chat {
-        width: 400px;
     }
 </style>
