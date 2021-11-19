@@ -2,6 +2,9 @@
     import { onMount } from 'svelte'
     import * as io from "socket.io-client"
 
+    import TitleLogo from '$lib/TitleLogo.svelte'
+    import NavigationBar from '$lib/NavigationBar.svelte'
+
     import ChatField from '../lib/ChatField.svelte'
     import LoadingScreen from '$lib/LoadingScreen.svelte'
     
@@ -78,68 +81,45 @@
 </script>
 
 <div class="main">
-    <h1>Welcome to Tagger</h1>
-    <div class="details">
-        <div class="name-sel">
-            <p>
-                Name:
-                <input type="text" bind:value={player_name}>
-                <button on:click={changeName} disabled={player_name.length < 1 || player_name.length > 25}>Apply</button>
-            </p>
-            {#if old_name != player_name}
-                <p>Unapplied name. Apply the name to make it visible to others.</p>
-            {:else if player_name.length < 1}
-                <p>Name is too short.</p>
-            {:else if player_name.length > 25}
-                <p>Name is too long.</p>
-            {:else}
-                <br/>
-            {/if}
-        </div>
-    </div>
+    <div class="resize-container">
+        <TitleLogo/>
     
-    {#if socket && socket.connected}
-        <div class="server-details">
-            <h3>Server details</h3>
-            <p>Your identity: {id ?? ''}</p>
-            <p>Players online: {player_count}</p>
-        </div>
-
-
-        <h4>Distance to all players within {settings.max_distance} meters of you:</h4>
-        <div class="player-dists">
-            {#each Object.entries(player_distances) as [name, value]}
-                <p>{name}: {value}m</p>
-            {/each}
-        </div>
-    {:else}
-        <p>Connecting to {address}</p>
-    {/if}
+        <div class="front">
+            <img id="earth" src="/Earth.png" alt="earth"/>
+        </div>  
+    </div>
+    <div class="navbar">
+        <NavigationBar/>
+    </div>
 </div>
 
 <style>
     .main {
-        margin: 0;
-        color: white;
-        font-family: 'Courier New', Courier, monospace;
-    }
-
-    .name-sel {
         display: flex;
         flex-direction: column;
-        padding: 0;
-        margin: 0;
-    }   
 
-    .name-sel p {
-        margin: 0;
-        padding: 0;
+        justify-content: center;
+        align-items: center;
+
+        font-family: 'Courier New', Courier, monospace;
+        color: white;
     }
 
-    .server-details {
-        padding: 1px 0 1px 20px;
-        border-radius: 5px;
-        background-color: #3f4646;
+    .navbar {
+        overflow: hidden;
+        position: fixed;
         width: 100%;
+        bottom: 0;
+    }
+
+    .resize-container {
+        max-width: 400px;
+    }
+
+    #earth {
+        max-width: 100%;
+
+        -webkit-mask-image: -webkit-linear-gradient(top, rgb(0, 0, 0, 1) 20%, rgba(0, 0, 0, 0) 80%);
+        mask-image: linear-gradient(90deg, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 70%);
     }
 </style>

@@ -1,0 +1,15 @@
+:root {
+    --greenish: #2a6f66;
+    --whiteish: #f1f1eb;
+    --darkwhiteish: #c7c7bd;
+}
+
+body {
+    margin: 0;
+
+    background-color: rgb(37, 37, 37);
+    
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
