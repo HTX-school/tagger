@@ -5,7 +5,7 @@
     import ChatField from '../lib/ChatField.svelte'
     import LoadingScreen from '$lib/LoadingScreen.svelte'
     
-    const address = import.meta.env.VITE_HOST || 'https://catcher-nodejs.herokuapp.com'
+    const address = import.meta.env.VITE_HOST || 'https://catcher-server.herokuapp.com'
     
     let settings = undefined
     
@@ -19,7 +19,7 @@
     let id = undefined
 
     var socket = undefined
-    
+
     onMount(() => {
         player_name = localStorage.getItem('player.name') || ''
         old_name = player_name
@@ -32,7 +32,6 @@
         socket = io.connect(address)
         
         socket.on('join', identity => {
-            console.log('Your identity is', identity)
             id = identity.player_id
             settings = identity.settings
             if (player_name) socket.emit('player.name.change', player_name)
