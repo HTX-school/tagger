@@ -1,9 +1,6 @@
 <script>
     import { onMount } from 'svelte'
     import * as io from "socket.io-client"
-
-    import ChatField from '../lib/ChatField.svelte'
-    import LoadingScreen from '$lib/LoadingScreen.svelte'
     
     const address = import.meta.env.VITE_HOST || 'https://catcher-server.herokuapp.com'
     
