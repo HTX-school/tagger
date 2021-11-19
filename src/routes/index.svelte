@@ -81,7 +81,7 @@
             <p>
                 Name:
                 <input type="text" bind:value={player_name}>
-                <button on:click={changeName} disabled={player_name.length < 1 || player_name.length > 25}>Apply</button>
+                <button on:click={changeName} disabled={player_name.length < 1 || player_name.length > 25 || old_name == player_name}>Apply</button>
             </p>
             {#if old_name != player_name}
                 <p>Unapplied name. Apply the name to make it visible to others.</p>
@@ -96,27 +96,33 @@
     </div>
     
     {#if socket && socket.connected}
-        <div class="server-details">
-            <h3>Server details</h3>
-            <p>Your identity: {id ?? ''}</p>
-            <p>Players online: {player_count}</p>
+        <div class="server-details-background">
+            <div class="server-details">
+                <h3>Server details</h3>
+                <p>Your identity: {id ?? ''}</p>
+                <p>Players online: {player_count}</p>
+            </div>
         </div>
 
 
-        <h4>Distance to all players within {settings.max_distance} meters of you:</h4>
-        <div class="player-dists">
-            {#each Object.entries(player_distances) as [name, value]}
-                <p>{name}: {value}m</p>
-            {/each}
-        </div>
+        {#if Object.keys(player_distances).length <= 0}
+            <h4>Distance to all players within {settings.max_distance} meters of you:</h4>
+            <div class="player-dists">
+                {#each Object.entries(player_distances) as [name, value]}
+                    <p>{name}: {value}m</p>
+                {/each}
+            </div>
+        {/if}
     {:else}
         <p>Connecting to {address}</p>
     {/if}
+
 </div>
 
 <style>
     .main {
         margin: 0;
+        padding: 0 15px 0 15px;
         color: white;
         font-family: 'Courier New', Courier, monospace;
     }
@@ -133,10 +139,13 @@
         padding: 0;
     }
 
-    .server-details {
-        padding: 1px 0 1px 20px;
+    .server-details-background {
         border-radius: 5px;
         background-color: #3f4646;
         width: 100%;
+    }
+
+    .server-details {
+        padding: 1px 20px 1px 20px;
     }
 </style>

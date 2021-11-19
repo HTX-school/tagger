@@ -1,6 +1,6 @@
 <div class="navbar">
-    <a href="#s"><img class="icon-size" src="/Chat.png" alt="Chat"></a>
-    <a href="#home"><img class="icon-size" src="/Globa.png" alt="Globe"></a>
+    <a href="/"><img class="icon-size" src="/Chat.png" alt="Chat"></a>
+    <a href="/stage"><img class="icon-size" src="/Globa.png" alt="Globe"></a>
     <a href="#contact"><img class="icon-size" src="/Group.png" alt="Group"></a>
     <a href="#contact"><img class="icon-size" src="/Settings.svg" alt="Settings"></a>
 </div>

@@ -87,9 +87,6 @@
             <img id="earth" src="/Earth.png" alt="earth"/>
         </div>  
     </div>
-    <div class="navbar">
-        <NavigationBar/>
-    </div>
 </div>
 
 <style>
@@ -102,13 +99,6 @@
 
         font-family: 'Courier New', Courier, monospace;
         color: white;
-    }
-
-    .navbar {
-        overflow: hidden;
-        position: fixed;
-        width: 100%;
-        bottom: 0;
     }
 
     .resize-container {

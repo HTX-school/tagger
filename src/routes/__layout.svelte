@@ -1,5 +1,6 @@
 <script>
     import '../app.css'
+    import NavigationBarWrapper from '$lib/NavigationBarWrapper.svelte'
 </script>
 
 <head>
@@ -8,4 +9,5 @@
 
 <main>
     <slot />
+    <NavigationBarWrapper/>
 </main>
