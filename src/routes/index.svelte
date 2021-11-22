@@ -105,7 +105,7 @@
         </div>
 
 
-        {#if Object.keys(player_distances).length <= 0}
+        {#if Object.keys(player_distances).length > 0}
             <h4>Distance to all players within {settings.max_distance} meters of you:</h4>
             <div class="player-dists">
                 {#each Object.entries(player_distances) as [name, value]}
