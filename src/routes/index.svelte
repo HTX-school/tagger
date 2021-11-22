@@ -109,7 +109,7 @@
             <h4>Distance to all players within {settings.max_distance} meters of you:</h4>
             <div class="player-dists">
                 {#each player_distances as pDist}
-                    <p>{pDist.name}: {pDist.value}m</p>
+                    <p>{pDist.name}: {pDist.distance}m</p>
                 {/each}
             </div>
         {/if}
