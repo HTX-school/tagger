@@ -1,21 +1,12 @@
 <script>
     import { onMount } from 'svelte'
-    import * as io from "socket.io-client"
-    
-    const address = import.meta.env.VITE_HOST || 'https://catcher-server.herokuapp.com'
-    
-    let settings = undefined
+
+    import { socketStore, player_count, player_distances, settings } from '$lib/socketStore'
     
     let old_name
     let player_name = ''
-    
-    let player_count = 0
-    let player_distances = []
-    let received_messages = []
 
-    let id = undefined
-
-    var socket = undefined
+    $: socket = $socketStore
 
     onMount(() => {
         player_name = localStorage.getItem('player.name') || ''
@@ -25,26 +16,8 @@
         navigator.geolocation.watchPosition(SendPosition, (err) => posErr = true, { enableHighAccuracy: false })
         
         if (posErr) return
-        
-        socket = io.connect(address)
-        
-        socket.on('join', identity => {
-            id = identity.player_id
-            settings = identity.settings
-            if (player_name) socket.emit('player.name.change', player_name)
-        })
-        
-        socket.on('players.distance', players_dists => {
-            player_distances = players_dists
-        })
 
-        socket.on('players.count', count => {
-            player_count = count
-        })
-
-        socket.on('chat.message.received', messageObject => {
-            received_messages = [...received_messages, messageObject]
-        })
+        socket.emit('player.name.change', player_name)
 
         function SendPosition(data) {
             let { coords } = data
@@ -99,22 +72,21 @@
         <div class="server-details-background">
             <div class="server-details">
                 <h3>Server details</h3>
-                <p>Your identity: {id ?? ''}</p>
-                <p>Players online: {player_count}</p>
+                <p>Players online: {$player_count}</p>
             </div>
         </div>
 
 
-        {#if player_distances.length > 0}
-            <h4>Distance to all players within {settings.max_distance} meters of you:</h4>
+        {#if $player_distances.length > 0}
+            <h4>Distance to all players within {$settings.max_distance} meters of you:</h4>
             <div class="player-dists">
-                {#each player_distances as pDist}
-                    <p>{pDist.name}: {pDist.distance}m</p>
+                {#each $player_distances as player_dist}
+                    <p>{player_dist.name}: {player_dist.distance}m</p>
                 {/each}
             </div>
         {/if}
     {:else}
-        <p>Connecting to {address}</p>
+        <p>Connecting to server...</p>
     {/if}
 
 </div>
