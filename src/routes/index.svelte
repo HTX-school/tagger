@@ -10,7 +10,7 @@
     let player_name = ''
     
     let player_count = 0
-    let player_distances = {}
+    let player_distances = []
     let received_messages = []
 
     let id = undefined
@@ -105,11 +105,11 @@
         </div>
 
 
-        {#if Object.keys(player_distances).length > 0}
+        {#if player_distances.length > 0}
             <h4>Distance to all players within {settings.max_distance} meters of you:</h4>
             <div class="player-dists">
-                {#each Object.entries(player_distances) as [name, value]}
-                    <p>{name}: {value}m</p>
+                {#each player_distances as pDist}
+                    <p>{pDist.name}: {pDist.value}m</p>
                 {/each}
             </div>
         {/if}
