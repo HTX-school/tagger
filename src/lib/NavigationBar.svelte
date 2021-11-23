@@ -3,9 +3,9 @@
 </script>
 
 <div class="navbar">
-    <button on:click={() => goto('/')}><img class="icon-size" src="/Chat.png" alt="Chat"></button>
+    <button on:click={() => goto('/chat')}><img class="icon-size" src="/Chat.png" alt="Chat"></button>
     <button on:click={() => goto('/home')}><img class="icon-size" src="/Globa.png" alt="Globe"></button>
-    <button><img class="icon-size" src="/Group.png" alt="Group"></button>
+    <button on:click={() => goto('/game')}><img class="icon-size" src="/Group.png" alt="Group"></button>
     <button><img class="icon-size" src="/Settings.svg" alt="Settings"></button>
 </div>
 

@@ -1,5 +1,6 @@
 import * as io from "socket.io-client"
 import { readable, writable } from "svelte/store";
+import { get } from 'svelte/store'
 
 export let player_count = writable(0)
 export let player_distances = writable({})
@@ -26,7 +27,7 @@ export const socketStore = readable({}, set => {
     })
 
     socket.on('chat.message.received', messageObject => {
-        received_messages.set([...received_messages, messageObject])
+        received_messages.set([...get(received_messages), messageObject])
     })
 
     set(socket)

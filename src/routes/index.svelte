@@ -1,6 +1,8 @@
 <script>
     import { onMount } from 'svelte'
 
+    import Chat from '$lib/Connection/Chat/Chat.svelte'
+
     import { socketStore, player_count, player_distances, settings } from '$lib/socketStore'
     
     let old_name
@@ -67,36 +69,36 @@
             {/if}
         </div>
     </div>
-    
-    {#if socket && socket.connected}
-        <div class="server-details-background">
-            <div class="server-details">
-                <h3>Server details</h3>
-                <p>Players online: {$player_count}</p>
-            </div>
+    <div class="flex-container">
+        <div class="server-connection">
+            {#if socket && socket.connected}
+                {#if $player_distances.length > 0}
+                    <h4>Distance to all players within {$settings.max_distance} meters of you:</h4>
+                    <div class="player-dists">
+                        {#each $player_distances as player_dist}
+                            <p>{player_dist.name}: {player_dist.distance}m</p>
+                        {/each}
+                    </div>
+                {/if}
+            {:else}
+                <p>Connecting to server...</p>
+            {/if}
         </div>
-
-
-        {#if $player_distances.length > 0}
-            <h4>Distance to all players within {$settings.max_distance} meters of you:</h4>
-            <div class="player-dists">
-                {#each $player_distances as player_dist}
-                    <p>{player_dist.name}: {player_dist.distance}m</p>
-                {/each}
-            </div>
-        {/if}
-    {:else}
-        <p>Connecting to server...</p>
-    {/if}
-
+    </div>
 </div>
 
 <style>
+    .flex-container {
+        width: 100%;
+
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 10px;
+    }
+
     .main {
         margin: 0;
         padding: 0 15px 0 15px;
-        color: white;
-        font-family: 'Courier New', Courier, monospace;
     }
 
     .name-sel {
@@ -109,15 +111,5 @@
     .name-sel p {
         margin: 0;
         padding: 0;
-    }
-
-    .server-details-background {
-        border-radius: 5px;
-        background-color: #3f4646;
-        width: 100%;
-    }
-
-    .server-details {
-        padding: 1px 20px 1px 20px;
     }
 </style>
