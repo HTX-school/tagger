@@ -1,8 +1,12 @@
+<script>
+    import { goto } from '$app/navigation'
+</script>
+
 <div class="navbar">
-    <a href="/"><img class="icon-size" src="/Chat.png" alt="Chat"></a>
-    <a href="/stage"><img class="icon-size" src="/Globa.png" alt="Globe"></a>
-    <a href="#contact"><img class="icon-size" src="/Group.png" alt="Group"></a>
-    <a href="#contact"><img class="icon-size" src="/Settings.svg" alt="Settings"></a>
+    <button on:click={() => goto('/')}><img class="icon-size" src="/Chat.png" alt="Chat"></button>
+    <button on:click={() => goto('/home')}><img class="icon-size" src="/Globa.png" alt="Globe"></button>
+    <button><img class="icon-size" src="/Group.png" alt="Group"></button>
+    <button><img class="icon-size" src="/Settings.svg" alt="Settings"></button>
 </div>
 
 <style>
@@ -19,23 +23,26 @@
         padding: 10px 0 10px 0;
     }
 
-    .navbar a {
-        float: left;
+    .navbar button {
         display: block;
-        color: #f2f2f2;
+        float: left;
+
         text-align: center;
         padding: 14px 16px;
         text-decoration: none;
         font-size: 17px;
 
+        background-color: rgb(41, 41, 41);
+        
         border-radius: 25%;
+        border: none;
+
+        transition: 0.15s;
     }
 
-    .navbar a:hover {
-        background: #f1f1f1;
-        color: black;
+    .navbar button:hover {
+        background: #8f8f8f;
     }
-
 
     .icon-size {
         width: 40px;
