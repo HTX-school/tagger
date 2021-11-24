@@ -27,7 +27,7 @@
 
 <div class="name-sel">
     <p>
-        Name:
+        Nickname:
         <input type="text" bind:value={$player_name} on:keydown={changeNameField}>
 
         <button on:click={changeName} disabled={$player_name.length < 1 || $player_name.length > 25 || old_name == $player_name}>Apply</button>
