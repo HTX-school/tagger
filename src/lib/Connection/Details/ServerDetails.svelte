@@ -1,5 +1,5 @@
 <script>
-    import { player_count } from '$lib/socketStore'
+    import { player_count } from '$lib/Connection/socketStore'
 </script>
 
 <div class="server-details-background">

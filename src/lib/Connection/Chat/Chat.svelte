@@ -1,5 +1,5 @@
 <script>
-    import { socket, received_messages } from "$lib/socketStore";
+    import { socket, received_messages } from "$lib/Connection/socketStore";
 
     import InputField from "$lib/Connection/Chat/InputField.svelte";
     import MessageField from "./MessageField.svelte";

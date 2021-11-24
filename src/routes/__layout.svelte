@@ -1,6 +1,6 @@
 <script>
     import '../app.css'
-    import NavigationBarWrapper from '$lib/NavigationBarWrapper.svelte'
+    import NavigationBarWrapper from '$lib/Navigation/NavigationBarWrapper.svelte'
 </script>
 
 <head>

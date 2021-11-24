@@ -1,6 +1,6 @@
 <script>
     import { onMount } from 'svelte'
-    import { socket, player_count, player_distances, settings, player_name } from '$lib/socketStore'
+    import { socket, player_distances, settings } from '$lib/Connection/socketStore'
 
     onMount(() => {
         let posErr = false

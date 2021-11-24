@@ -1,5 +1,5 @@
 <script>
-    import { socket, player_name } from '$lib/socketStore'
+    import { socket, player_name } from '$lib/Connection/socketStore'
     import { onMount } from 'svelte'
 
     let old_name
