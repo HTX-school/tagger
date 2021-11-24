@@ -1,12 +1,16 @@
 <script>
     import Chat from '$lib/Connection/Chat/Chat.svelte'
     import ServerDetails from '$lib/Connection/Details/ServerDetails.svelte'
+    import NameSelection from '$lib/Connection/Chat/NameSelection.svelte';
 </script>
 
 <div class="root">
-    <div class="main">
+    <div class="container">
         <div class="server-details">
             <ServerDetails/>
+        </div>
+        <div class="name-sel">
+            <NameSelection/>
         </div>
         <div class="chat">
             <Chat/>
@@ -19,24 +23,20 @@
         display: flex;
         align-items: center;
         justify-content: center;
-    }
-
-    .main {
-        display: flex;
-        align-items: center;
-        justify-content: center;
 
         flex-direction: column;
 
-        width: 600px;
+        width: 100%;
+    }
+
+    .container {
+        max-width: 1000px;
+        min-width: 150px;
+        width: 400px;
     }
 
     .server-details {
-        width: 500px;
+        margin-top: 15px;
         margin-bottom: 15px;
-    }
-
-    .chat {
-        width: 500px;
     }
 </style>

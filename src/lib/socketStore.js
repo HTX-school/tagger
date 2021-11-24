@@ -9,7 +9,9 @@ export let settings = writable({})
 export let id = writable(0)
 export let player_name = writable('')
 
-export const socketStore = readable({}, set => {
+export let name_store = writable({})
+
+export const socket = readable({}, set => {
     const address = import.meta.env.VITE_HOST || 'https://catcher-server.herokuapp.com'
     const socket = io.connect(address)
 

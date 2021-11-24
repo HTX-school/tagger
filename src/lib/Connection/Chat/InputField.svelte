@@ -1,13 +1,14 @@
 <script>
     import { createEventDispatcher } from 'svelte'
     export let value = ''
+    export let clearOnSend = true
 
     const dispatch = createEventDispatcher()
 
     function sendMessage(event) {
         if (event.key !== 'Enter' || value.trim() === '') return;
         dispatch('message', { value })
-        value = ''
+        if (clearOnSend) value = ''
     }
 </script>
 

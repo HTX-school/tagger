@@ -1,115 +1,31 @@
 <script>
-    import { onMount } from 'svelte'
-
-    import Chat from '$lib/Connection/Chat/Chat.svelte'
-
-    import { socketStore, player_count, player_distances, settings } from '$lib/socketStore'
-    
-    let old_name
-    let player_name = ''
-
-    $: socket = $socketStore
-
-    onMount(() => {
-        player_name = localStorage.getItem('player.name') || ''
-        old_name = player_name
-
-        let posErr = false
-        navigator.geolocation.watchPosition(SendPosition, (err) => posErr = true, { enableHighAccuracy: false })
-        
-        if (posErr) return
-
-        socket.emit('player.name.change', player_name)
-
-        function SendPosition(data) {
-            let { coords } = data
-            let json = {
-                latitude: coords.latitude,
-                longitude: coords.longitude,
-                altidude: coords.altidude,
-
-                accuracy: coords.accuracy,
-                altitudeAccuracy: coords.altitudeAccuracy,
-
-                heading: coords.heading,
-                speed: coords.speed
-            }
-            
-            socket.emit('position', json)
-        }
-    })
-
-    function changeName() {
-        if (player_name < 1 || player_name > 25) return;
-
-        socket.emit('player.name.change', player_name)
-        localStorage.setItem('player.name', player_name)
-        old_name = player_name
-    }
-
+    import TitleLogo from '$lib/TitleLogo.svelte'
 </script>
 
 <div class="main">
-    <h1>Welcome to Tagger</h1>
-    <div class="details">
-        <div class="name-sel">
-            <p>
-                Name:
-                <input type="text" bind:value={player_name}>
-                <button on:click={changeName} disabled={player_name.length < 1 || player_name.length > 25 || old_name == player_name}>Apply</button>
-            </p>
-            {#if old_name != player_name}
-                <p>Unapplied name. Apply the name to make it visible to others.</p>
-            {:else if player_name.length < 1}
-                <p>Name is too short.</p>
-            {:else if player_name.length > 25}
-                <p>Name is too long.</p>
-            {:else}
-                <br/>
-            {/if}
-        </div>
-    </div>
-    <div class="flex-container">
-        <div class="server-connection">
-            {#if socket && socket.connected}
-                {#if $player_distances.length > 0}
-                    <h4>Distance to all players within {$settings.max_distance} meters of you:</h4>
-                    <div class="player-dists">
-                        {#each $player_distances as player_dist}
-                            <p>{player_dist.name}: {player_dist.distance}m</p>
-                        {/each}
-                    </div>
-                {/if}
-            {:else}
-                <p>Connecting to server...</p>
-            {/if}
-        </div>
+    <div class="resize-container">
+        <TitleLogo/>
+    
+        <div class="front">
+            <img id="earth" src="/Earth.png" alt="earth"/>
+        </div>  
     </div>
 </div>
 
 <style>
-    .flex-container {
-        width: 100%;
-
-        display: flex;
-        flex-direction: row;
-        margin-bottom: 10px;
-    }
-
     .main {
-        margin: 0;
-        padding: 0 15px 0 15px;
+        font-family: 'Courier New', Courier, monospace;
+        color: white;
     }
 
-    .name-sel {
-        display: flex;
-        flex-direction: column;
-        padding: 0;
-        margin: 0;
-    }   
+    .resize-container {
+        max-width: 400px;
+    }
 
-    .name-sel p {
-        margin: 0;
-        padding: 0;
+    #earth {
+        max-width: 100%;
+
+        -webkit-mask-image: -webkit-linear-gradient(top, rgb(0, 0, 0, 1) 20%, rgba(0, 0, 0, 0) 80%);
+        mask-image: linear-gradient(90deg, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 70%);
     }
 </style>
