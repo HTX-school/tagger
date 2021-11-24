@@ -18,6 +18,8 @@ export const socket = readable({}, set => {
     socket.on('join', identity => {
         id.set(identity.player_id)
         settings.set(identity.settings)
+
+        socket.emit('player.name.change', get(player_name))
     })
     
     socket.on('players.distance', players_dists => {
