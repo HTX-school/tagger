@@ -1,11 +1,16 @@
 <script>
-    import { beforeUpdate, afterUpdate } from 'svelte'
+    import { beforeUpdate, onMount, afterUpdate } from 'svelte'
 
     export let messages = []
 
     // Autoscroll with text.
     let div
     let autoscroll
+    
+    onMount(() => {
+        div.scrollTo(0, div.scrollHeight)
+    })
+    
     beforeUpdate(() => {
         autoscroll = div && (div.offsetHeight + div.scrollTop) > (div.scrollHeight - 20);
     })
