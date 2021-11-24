@@ -1,12 +1,11 @@
 <script>
     import { player_count } from '$lib/socketStore'
-    export let players = $player_count
 </script>
 
 <div class="server-details-background">
     <div class="server-details">
         <h3>Server details</h3>
-        <p>Players online: {players}</p>
+        <p>Players online: {$player_count}</p>
     </div>
 </div>
 
