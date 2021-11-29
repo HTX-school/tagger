@@ -6,7 +6,14 @@
     <NavigationBar/>
 </div>
 
+<div class="nav-bar-filler"></div>
+
 <style>
+    .nav-bar-filler {
+        width: 100%;
+        height: 92.8px;
+    }
+
     .navbar {
         overflow: hidden;
         position: fixed;

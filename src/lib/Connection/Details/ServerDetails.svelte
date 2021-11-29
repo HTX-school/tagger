@@ -1,11 +1,14 @@
 <script>
     import { player_count } from '$lib/Connection/socketStore'
+    import NameSelection from '$lib/Connection/Chat/NameSelection.svelte';
+
 </script>
 
 <div class="server-details-background">
     <div class="server-details">
         <h3>Server details</h3>
         <p>Players online: {$player_count}</p>
+        <NameSelection/>
     </div>
 </div>
 

@@ -29,37 +29,38 @@
     <div class="input">
         <p>Nickname:</p>
         <input type="text" bind:value={$player_name} on:keydown={changeNameField}>
-        <button on:click={changeName} disabled={$player_name.length < 1 || $player_name.length > 25 || old_name == $player_name}>Apply</button>
     </div>
-
+    
     {#if old_name != $player_name}
         <p>Unapplied name.</p>
     {:else if $player_name.length < 1}
         <p>Name is too short.</p>
-    {:else if $player_name.length > 25}
+        {:else if $player_name.length > 25}
         <p>Name is too long.</p>
     {:else}
         <br/>
     {/if}
-    
+        
+    <button on:click={changeName} disabled={$player_name.length < 1 || $player_name.length > 25 || old_name == $player_name}>Apply</button>
 </div>
 
 <style>
     .input {
         display: flex;
+        flex-wrap: wrap;
     }
 
     .input input {
-        margin-left: 7px;
-        margin-right: 10px;
-        flex-grow:1;
+        width: 100%;
     }
 
     .name-sel {
         display: flex;
         flex-direction: column;
+        overflow: hidden;
+        
         padding: 0;
-        margin: 0 0 20px 0;
+        margin: 0 0 15px 0;
     }   
 
     .name-sel p {
