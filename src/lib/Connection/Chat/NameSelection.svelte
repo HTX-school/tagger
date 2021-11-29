@@ -26,12 +26,12 @@
 </script>
 
 <div class="name-sel">
-    <p>
-        Nickname:
+    <div class="input">
+        <p>Nickname:</p>
         <input type="text" bind:value={$player_name} on:keydown={changeNameField}>
-
         <button on:click={changeName} disabled={$player_name.length < 1 || $player_name.length > 25 || old_name == $player_name}>Apply</button>
-    </p>
+    </div>
+
     {#if old_name != $player_name}
         <p>Unapplied name.</p>
     {:else if $player_name.length < 1}
@@ -41,14 +41,25 @@
     {:else}
         <br/>
     {/if}
+    
 </div>
 
 <style>
+    .input {
+        display: flex;
+    }
+
+    .input input {
+        margin-left: 7px;
+        margin-right: 10px;
+        flex-grow:1;
+    }
+
     .name-sel {
         display: flex;
         flex-direction: column;
         padding: 0;
-        margin: 0;
+        margin: 0 0 20px 0;
     }   
 
     .name-sel p {

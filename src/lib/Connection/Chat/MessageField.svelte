@@ -21,11 +21,13 @@
 </script>
 
 <div class="root" bind:this={div}>
-    {#each messages as message}
-        <div class="message">
-            <p>{message.sender}: {message.message}</p>
-        </div>
-    {/each}
+    <div class="container">
+        {#each messages as message}
+            <div class="message">
+                <p>{message.sender}: {message.message}</p>
+            </div>
+        {/each}
+    </div>
 </div>
 
 <style>
@@ -44,6 +46,10 @@
         background-color: #333333;
 
         border-radius: 5px 5px 0 0;
+    }
+
+    .container {
+        margin: 0 15px 0 15px;
     }
 
     .message {

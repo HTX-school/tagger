@@ -2,6 +2,7 @@
     import Chat from '$lib/Connection/Chat/Chat.svelte'
     import ServerDetails from '$lib/Connection/Details/ServerDetails.svelte'
     import NameSelection from '$lib/Connection/Chat/NameSelection.svelte';
+    import PositionShower from '$lib/PositionShower.svelte'
 </script>
 
 <div class="root">
@@ -15,6 +16,7 @@
         <div class="chat">
             <Chat/>
         </div>
+        <PositionShower/>
     </div>
 </div>
 
@@ -26,6 +28,10 @@
 
         flex-direction: column;
 
+        width: 100%;
+    }
+
+    .name-sel {
         width: 100%;
     }
 
